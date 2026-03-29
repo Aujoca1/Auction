@@ -1,0 +1,510 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+    padding: 30px;
+}
+
+/* Экран входа */
+#login-screen {
+    text-align: center;
+    padding: 60px 30px;
+}
+
+#login-screen h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #4a5568;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0.1);
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#player-name {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#player-name:focus {
+    border-color: #667eea;
+}
+
+#join-game-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#join-game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#join-game-btn:active {
+    transform: translateY(0);
+}
+
+/* Игровой экран */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.round-info, .player-info {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.auction-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.lot-preview {
+    text-align: center;
+}
+
+.lot-image-placeholder {
+    width: 300px;
+    height: 300px;
+    background: #f7fafc;
+    border: 3px dashed #cbd5e0;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.question-mark {
+    font-size: 8rem;
+    color: #a0aec0;
+    opacity: 0.7;
+}
+
+#lot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+#lot-image.show {
+    display: block;
+}
+
+#lot-name {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin: 10px 0;
+}
+
+.auction-controls {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.timer {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e53e3e;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bid-section {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.current-bid {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.bid-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#bid-amount {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    width: 150px;
+    outline: none;
+}
+
+#bid-amount:focus {
+    border-color: #667eea;
+}
+
+#place-bid-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#place-bid-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#place-bid-btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.players-list {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.players-list h3 {
+    margin-bottom: 15px;
+    color: #4a5568;
+}
+
+#players-container {
+    list-style: none;
+}
+
+#players-container li {
+    padding: 10px;
+    margin: 5px 0;
+    background: #f7fafc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    border-left: 4px solid #667eea;
+}
+
+.player-item.current-player {
+    border-left: 4px solid #48bb78;
+    background: #ebf8ff;
+}
+
+.results-panel {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0fff4;
+    border-radius: 10px;
+    border: 1px solid #c6f6d5;
+    text-align: center;
+}
+
+.results-panel h3 {
+    margin-bottom: 15px;
+    color: #2f855a;
+}
+
+#round-results {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+#next-round-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#next-round-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+/* Анимации */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Загрузчик */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #e0e7ff;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 0.85rem;
+  color: #c4b5fd;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Рамка с описанием */
+.description-frame {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(139, 92, 246, 0.3),
+    0 2px 4px -1px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.description-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+  opacity: 0.5;
+}
+
+.description-content {
+  position: relative;
+  z-index: 1;
+}
+
+.description-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e0e7ff;
+  font-style: italic;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ИИ оценка и описание */
+.ai-evaluation {
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 2px solid #bae6fd;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+
+.ai-value-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ai-value-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-badge {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.ai-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0369a1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ai-description {
+    font-size: 0.95rem;
+    color: #0c4a6e;
+    line-height: 1.5;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.value-comparison {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #bae6fd;
+    font-size: 0.9rem;
+}
+
+.real-price-label {
+    color: #64748b;
+    font-weight: bold;
+}
+
+.real-price-low {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.real-price-high {
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.image-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ai-generated-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0.8;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+.ai-hint {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #0c4a6e;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    #login-screen h1 {
+        font-size: 2rem;
+    }
+    
+    .lot-image-placeholder {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .bid-input {
+        flex-direction: column;
+    }
+    
+    #bid-amount {
+        width: 100%;
+    }
+}
